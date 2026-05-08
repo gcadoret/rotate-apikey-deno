@@ -1,0 +1,11 @@
+services:
+  gemini-proxy:
+    build: .
+    container_name: gemini-proxy
+    environment:
+      - API_KEYS='foo,bar'
+      # - ACCESS_TOKEN=your_token
+      - GEMINI_BASE=https://generativelanguage.googleapis.com
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

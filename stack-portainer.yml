@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  gemini-proxy:
+    image: denoland/deno:alpine-2.5.6
+    working_dir: /app
+    command: ["run", "-A", "/app/mod.ts"]
+    volumes:
+      - /home/gcadoret/rotate-apikey-deno/mod.ts:/app/mod.ts:ro
+    environment:
+      API_KEYS: "foo,bar"
+      GEMINI_BASE: https://generativelanguage.googleapis.com
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
